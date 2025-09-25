@@ -6,6 +6,7 @@ using Grocery.Core.Interfaces.Services;
 using Grocery.Core.Models;
 using System.Collections.ObjectModel;
 using System.Text.Json;
+using System.Windows.Input;
 
 namespace Grocery.App.ViewModels
 {
@@ -18,6 +19,7 @@ namespace Grocery.App.ViewModels
         
         public ObservableCollection<GroceryListItem> MyGroceryListItems { get; set; } = [];
         public ObservableCollection<Product> AvailableProducts { get; set; } = [];
+        public ICommand SearchedMethod { get; set; }
 
         [ObservableProperty]
         GroceryList groceryList = new(0, "None", DateOnly.MinValue, "", 0);
@@ -30,6 +32,7 @@ namespace Grocery.App.ViewModels
             _productService = productService;
             _fileSaverService = fileSaverService;
             Load(groceryList.Id);
+            SearchedMethod = new RelayCommand<string>(SearchMethod);
         }
 
         private void Load(int id)
@@ -83,6 +86,23 @@ namespace Grocery.App.ViewModels
             catch (Exception ex)
             {
                 await Toast.Make($"Opslaan mislukt: {ex.Message}").Show(cancellationToken);
+            }
+        }
+
+        void SearchMethod(string query)
+        {
+            if (query == "")
+            {
+                GetAvailableProducts();
+                return;
+            }
+            for (int i = AvailableProducts.Count; i > 0; i--)
+            {
+                Product p = AvailableProducts[i-1];
+                if (p.Name.ToLower().Contains(query.ToLower()) == false)
+                {
+                    AvailableProducts.Remove(p);
+                }
             }
         }
 
