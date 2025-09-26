@@ -1,5 +1,5 @@
 name: MAUI Unit Tests
-
+ 
 on:
   push:
     branches:
@@ -9,30 +9,27 @@ on:
     branches:
       - main
       - develop
-
+ 
 jobs:
   test:
     runs-on: windows-latest
     steps:
-      - name: Checkout repository
+      - name: Haal de repository op
         uses: actions/checkout@v4
-
-      - name: Install .NET SDK
+ 
+      - name: Installeer .NET SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.x'
-
-      - name: Install MAUI workloads
-        run: dotnet workload install maui-android
-
-      - name: Restore dependencies (Windows + Android)
+          dotnet-version: '8.0.x'  # Gebruik de juiste versie voor MAUI
+ 
+      - name: Installeer MAUI workloads
+        run: dotnet workload install maui
+ 
+      - name: Herstel afhankelijkheden
         run: dotnet restore
-
-      - name: Build Windows app
-        run: dotnet build --configuration Release -f net8.0-windows10.0.19041.0 --runtime win-x64
-
-      - name: Build Android app
-        run: dotnet build --configuration Release -f net8.0-android
-
-      - name: Run unit tests (Windows)
-        run: dotnet test --configuration Release -f net8.0-windows10.0.19041.0 --no-restore --no-build --verbosity normal
+ 
+      - name: Bouw de applicatie
+        run: dotnet build --configuration Release -f net8.0-windows10.0.19041.0 /p:RuntimeIdentifierOverride=win-x64
+ 
+      - name: Voer unit tests uit
+        run: dotnet test --configuration Release --no-restore --no-build --verbosity normal
