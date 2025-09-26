@@ -35,9 +35,10 @@ namespace Grocery.App.ViewModels
         [RelayCommand]
         private void ConfirmRegistry()
         {
-            if (Email.Contains("@") != true || Email.EndsWith(".com") != true)
+            bool ok = _authService.CheckEmail(Email);
+            if (ok == false)
             {
-                LoginMessage = "Voer een geldig emailadres in.\nEen geldig emailadres bevat een '@' en eindigt met '.com'.";
+                LoginMessage = "Voer een geldig emailadres in.";
             }
             else
             {

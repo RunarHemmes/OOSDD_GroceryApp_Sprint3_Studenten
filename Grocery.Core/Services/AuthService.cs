@@ -1,6 +1,7 @@
 ﻿using Grocery.Core.Helpers;
 using Grocery.Core.Interfaces.Services;
 using Grocery.Core.Models;
+using System.Xml.Linq;
 
 namespace Grocery.Core.Services
 {
@@ -17,6 +18,27 @@ namespace Grocery.Core.Services
             if (client == null) return null;
             if (PasswordHelper.VerifyPassword(password, client.Password)) return client;
             return null;
+        }
+
+        public bool CheckEmail(string email)
+        {
+            bool emailExists = false;
+            List<Client> clients = _clientService.GetAll();
+            foreach (Client c in clients)
+            {
+                if (c.EmailAddress == email)
+                {
+                    emailExists = true;
+                }
+            }
+            if (email.Contains("@") != true || email.EndsWith(".com") != true || emailExists == true)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }
