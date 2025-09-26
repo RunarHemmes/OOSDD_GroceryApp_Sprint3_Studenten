@@ -1,5 +1,7 @@
 using Grocery.Core.Helpers;
+using Grocery.Core.Data.Repositories;
 using Grocery.Core.Services;
+using Grocery.Core.Interfaces.Repositories;
 
 namespace TestCore
 {
@@ -34,7 +36,7 @@ namespace TestCore
         {
             string password = "user1";
             string passwordHash = "sxnIcZdYt8wC8MYWcQVQjQ==.FKd5Z/jwxPv3a63lX+uvQ0+P7EuNYZybvkmdhbnkIHA=";
-            Assert.IsFalse(PasswordHelper.VerifyPassword(password, passwordHash)); //Zelf uitwerken
+            Assert.IsFalse(PasswordHelper.VerifyPassword(password, passwordHash));
         }
 
         [TestCase("user1", "IunRhDKa+fWo8+4/Qfj7Pg==.kDxZnUQHCZun6gLIE6d9oeULLRIuRmxmH2QKJv2IM08")]
@@ -43,7 +45,7 @@ namespace TestCore
         {
             try
             {
-                Assert.IsFalse(PasswordHelper.VerifyPassword(password, passwordHash)); //Zelf uitwerken zodat de test slaagt!
+                Assert.IsFalse(PasswordHelper.VerifyPassword(password, passwordHash));
             }
             catch 
             {
@@ -58,7 +60,8 @@ namespace TestCore
         [TestCase(false, "user3@mail")]
         public void TestCheckEmailReturnsCorrectValue(bool validEmail, string email)
         {
-            bool result = AuthService.CheckEmail(email);
+            AuthService authService = new AuthService(new ClientService(new ClientRepository()));
+            bool result = authService.CheckEmail(email);
             Assert.AreEqual(validEmail, result);
         }
     }
