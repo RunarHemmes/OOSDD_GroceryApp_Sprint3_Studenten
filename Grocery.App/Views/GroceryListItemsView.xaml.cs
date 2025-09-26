@@ -8,5 +8,6 @@ public partial class GroceryListItemsView : ContentPage
 	{
 		InitializeComponent();
         BindingContext = viewModel;
+		ProductSearchBar.SearchCommand = viewModel.SearchedMethod;
     }
 }
