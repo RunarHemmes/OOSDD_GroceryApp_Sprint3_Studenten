@@ -1,8 +1,10 @@
 ﻿
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Grocery.App.Views;
 using Grocery.Core.Interfaces.Services;
 using Grocery.Core.Models;
+using System.Threading.Tasks;
 
 namespace Grocery.App.ViewModels
 {
@@ -40,6 +42,15 @@ namespace Grocery.App.ViewModels
             {
                 LoginMessage = "Ongeldige inloggegevens.";
             }
+        }
+
+        [RelayCommand]
+        private async Task ToRegister()
+        {
+            Routing.RegisterRoute(nameof(RegistryView), typeof(RegistryView));
+            Application.Current.MainPage = new AppShell();
+            await Shell.Current.GoToAsync($"{nameof(RegistryView)}");
+            
         }
     }
 }

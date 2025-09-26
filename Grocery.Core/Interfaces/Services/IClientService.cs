@@ -8,6 +8,8 @@ namespace Grocery.Core.Interfaces.Services
 
         public Client? Get(int id);
 
+        public void AddClient(string name, string email, string password);
+
         public List<Client> GetAll();
     }
 }
