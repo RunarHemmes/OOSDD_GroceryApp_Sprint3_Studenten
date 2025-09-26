@@ -1,4 +1,5 @@
 using Grocery.Core.Helpers;
+using Grocery.Core.Services;
 
 namespace TestCore
 {
@@ -48,6 +49,17 @@ namespace TestCore
             {
                 Assert.IsFalse(false);
             }
+        }
+
+        [TestCase(true, "user4@mail.com")]
+        [TestCase(true, "MyName@mail.com")]
+        [TestCase(false, "user4mail.com")]
+        [TestCase(false, "user4@mail")]
+        [TestCase(false, "user3@mail")]
+        public void TestCheckEmailReturnsCorrectValue(bool validEmail, string email)
+        {
+            bool result = AuthService.CheckEmail(email);
+            Assert.AreEqual(validEmail, result);
         }
     }
 }
