@@ -8,7 +8,6 @@ on:
   pull_request:
     branches:
       - main
-      - develop
  
 jobs:
   test:
@@ -32,4 +31,4 @@ jobs:
         run: dotnet build --configuration Release -f net8.0-windows10.0.19041.0 /p:RuntimeIdentifierOverride=win-x64
  
       - name: Voer unit tests uit
-        run: dotnet test --configuration Release --no-restore --no-build --verbosity normal
+        run: dotnet test --configuration Release --no-restore --verbosity normal
